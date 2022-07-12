@@ -1,6 +1,14 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
 
+import * as dat from "../node_modules/dat.gui/build/dat.gui.module.js";
+
 const container = document.body;
+
+// add gui controls
+
+const gui = new dat.GUI();
+
+gui.add();
 
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -26,6 +34,25 @@ scene.add(mesh);
 
 camera.position.z = 5;
 
+// Plane gometry
+const planeGeometry = new THREE.PlaneGeometry(5, 5, 10, 10);
+const planeMaterial = new THREE.MeshPhongMaterial({
+  color: 0xffff00,
+  side: THREE.DoubleSide,
+  flatShading: THREE.FlatShading,
+});
+const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+scene.add(planeMesh);
+
+const { array } = planeMesh.geometry.attributes.position;
+
+for (let i = 2; i < array.length; i += 3) {}
+// light
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(0, 0, 1);
+scene.add(light);
+
+// animate infinite
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
